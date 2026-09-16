@@ -1,0 +1,30 @@
+{% load static %}
+
+<html>
+    <head>
+        <title>Oscar Isaac Quote of the Day</title>
+        <link rel="stylesheet" href="{% static 'quotes_styles.css' %}">
+    </head>
+    <body>
+        <header>Oscar Isaac Quote of the Day</header>
+        <div class="container">
+            <div class="nav">
+                <nav>
+                    <li><a href="{% url 'quote_page' %}">Quote of the Day</a></li>
+                    <li><a href="{% url 'show_all_page' %}">Show All</a></li>
+                    <li><a href="{% url 'about_page' %}">About</a></li>
+                </nav>
+            </div>
+            <div class="content">
+
+                <!-- Put page specific content here -->
+                {% block content %}
+                {% endblock %}
+
+            </div>
+        </div>
+        <footer>
+            Page created by tiffyam@bu.edu.
+        </footer>
+    </body>
+</html>
