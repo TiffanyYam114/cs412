@@ -1,3 +1,9 @@
+# File: urls.py
+# Author: Tiffany Yam (tiffyam@bu.edu), 9/15/26
+# Description: Contains URLs specific to the quotes app
+
+
+
 from django.urls import path
 from django.conf import settings
 from . import views

@@ -1,5 +1,15 @@
+<!--
+    File: quote.html
+    Author: Tiffany Yam (tiffyam@bu.edu), 9/15/26
+    Description: Displays a random quote and image of Oscar Isaac.
+-->
+
+
+
+<!-- Load the base template -->
 {% extends 'base.html' %}
 
+<!-- Custom content -->
 {% block content %}
     <h3>{{random_quote}}</h3>
     <img src={{random_image}} alt="Image of Oscar Isaac">

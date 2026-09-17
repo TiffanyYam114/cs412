@@ -7,6 +7,8 @@ import random
 # Create your views here.
 
 def home(request):
+    """Function to respond to the "home" request"""
+
     response_text = f'''
     <html>
         <h1>Hello, world!</h1>
@@ -18,6 +20,7 @@ def home(request):
 
 
 def home_page(request):
+    """Respond to the URL '', delegate work to a template."""
     template_name = 'hw/home.html'
     # a dict of context variables (key-value pairs)
     context = {
