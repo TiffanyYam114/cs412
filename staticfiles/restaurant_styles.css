@@ -1,0 +1,110 @@
+/*
+File: restaurant_styles.css
+Author: Tiffany Yam (tiffyam@bu.edu), 9/2/26
+Description: Contains styles for the restaurant application.
+*/
+
+
+
+* {
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+header {
+    width: 100%;
+    color: rgb(103, 58, 0);
+    background-color: #eddcd5;
+    text-align: center;
+    padding: 20px;
+    font-size: 40px;
+    font-weight: 500;
+}
+
+footer {
+    max-width: 100%;
+    background-color: #eddcd5;
+    padding: 10px;
+    text-align: center;
+}
+
+body {
+    max-width: 1000px;
+    margin: 20px auto;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+}
+
+.nav {
+    flex: 0 0 200px;
+    margin-top: 20px;
+}
+
+.content {
+    border-left: 2px solid rgb(165, 79, 42);
+    padding: 20px 0 20px 50px;
+}
+
+nav {
+    list-style: none;
+}
+
+nav li a {
+    display: block;
+    margin: 20px;
+    color: rgb(165, 79, 42);
+    font-size: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    text-align: center;
+}
+
+a:hover {
+    color: rgb(96, 45, 22);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+h2 {
+    color: rgb(103, 58, 0);
+    font-size: 25px;
+}
+
+p {
+    font-size: 17px;
+    margin: 20px 0;
+    line-height: 20px;
+}
+
+img {
+    max-width: 500px;
+    margin-bottom: 20px;
+}
+
+.choice {
+    padding: 0;
+}
+
+.customer div {
+    margin-bottom: 10px;
+}
+
+.noodle_soups_container, .special, .special_instructions, .customer, .submit, .confirmation_container {
+    background-color: #eddcd5;
+    padding: 20px;
+}
+
+.noodle_soups_container {
+    display: flex;
+    flex-direction: row;
+}
+
+.add-ons {
+    margin: 10px 0 0 70px;
+}
