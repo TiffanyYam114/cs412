@@ -1,0 +1,35 @@
+<!--
+    File: restaurant/templates/restaurant/confirmation.html
+    Author: Tiffany Yam (tiffyam@bu.edu), 9/22/26
+    Description: Displays confirmation page after ordering. Displays pickup time, 
+    order summary, total, and customer information.
+-->
+
+
+
+<!-- Load the base template -->
+{% extends 'restaurant/base.html' %}
+
+<!-- Custom content -->
+{% block content %}
+<div class="confirmation_container">
+    <h2>Confirmation</h2>
+
+    <p>Thank you for your order!</p>
+    <p>Your order will be ready on <strong>{{ready_time}}</strong>.</p>
+
+    <h3>Order Summary:</h3>
+    <!-- Display each item that the customer ordered -->
+    {% for item in ordered_items %}
+        <!-- Display two decimal spaces for the price -->
+        <p>{{item.0}} ${{item.1|floatformat:2}}</p>
+    {% endfor %}
+
+    <p><strong>Total: ${{total}}</strong></p>
+
+    <h3>Customer Information:</h3>
+    <p>{{name}}</p>
+    <p>{{email}}</p>
+    <p>{{phone_number}}</p>
+</div>
+{% endblock %}

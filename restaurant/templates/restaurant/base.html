@@ -1,0 +1,42 @@
+<!--
+    File: restaurant/templates/restaurant/base.html
+    Author: Tiffany Yam (tiffyam@bu.edu), 9/22/26
+    Description: Base page for the restaurant webpage. Contains header, nav, 
+    footer, and CSS stylesheet.
+-->
+
+
+
+<!-- Load the CSS file -->
+{% load static %}
+
+<html>
+    <head>
+        <title>Ten Second Noodles</title>
+        <link rel="stylesheet" href="{% static 'restaurant_styles.css' %}">
+    </head>
+
+    <body>
+        <header>
+            Ten Second Noodles
+        </header>
+        <div class="container">
+            <div class="nav">
+                <nav>
+                    <li><a href="{% url 'main' %}">Home</a></li>
+                    <li><a href="{% url 'order' %}">Order</a></li>
+                </nav>
+            </div>
+            <div class="content">
+
+                <!-- Page specific content goes here -->
+                {% block content %}
+                {% endblock %}
+
+            </div>
+        </div>
+        <footer>
+            Page created by tiffyam@bu.edu.
+        </footer>
+    </body>
+</html>

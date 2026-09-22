@@ -1,0 +1,27 @@
+<!--
+    File: restaurant/templates/restaurant/main.html
+    Author: Tiffany Yam (tiffyam@bu.edu), 9/22/26
+    Description: The main page for the restaurant. Displays an image and 
+    short description of the restaurant.
+-->
+
+
+
+<!-- Load the base template -->
+{% extends 'restaurant/base.html' %}
+
+<!-- Custom content -->
+{% block content %}
+<h2>Welcome!</h2>
+<img src="https://static.wixstatic.com/media/4aa7ca_16c9a68982584a5798ff6ca9ea2eaf93~mv2.jpg/v1/fill/w_640,h_800,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/4aa7ca_16c9a68982584a5798ff6ca9ea2eaf93~mv2.jpg" 
+    alt="Image of Ten Seconds">
+<p>
+    We are located in the heart of Chinatown, serving up delicious 
+    traditional Chinese noodle soups. Use the menu to place an online order.
+</p>
+<p>60 Beach St, Boston, MA 02111</p>
+<p>
+    Store Hours: 
+    Everyday 11 AM - 10 PM
+</p>
+{% endblock %}
