@@ -8,7 +8,7 @@ from django.db import models
 # Create your models here.
 
 class Profile(models.Model):
-    """Models the data of a an individual user profile"""
+    """Models the data of an individual user profile"""
 
     # Define the data attributes of the Profile object
     username = models.TextField(blank=True)
@@ -18,5 +18,5 @@ class Profile(models.Model):
     join_date = models.DateField(auto_now=True)
 
     def __str__(self):
-        """Return a string representation of this model instance"""
+        """Return a string representation of this Profile"""
         return f"{self.username}"

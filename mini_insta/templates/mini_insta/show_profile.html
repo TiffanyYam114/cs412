@@ -1,0 +1,36 @@
+<!-- 
+    File: mini_insta/templates/mini_insta/show_profile.html
+    Author: Tiffany Yam (tiffyam@bu.edu), 9/29/26
+    Description: Displays one Profile
+-->
+
+
+<!-- Load the base template -->
+{% extends 'mini_insta/base.html' %}
+
+<!-- Custom content -->
+{% block content %}
+<main class="container3">
+    <article>
+        <div>
+            <h1>@{{profile.username}}</h1>
+            <div class="container">
+                <div>
+                    <img class="profile-img" src="{{profile.profile_image_url}}" alt="">
+                </div>
+                <div>
+                    <h2>{{profile.display_name}}</h2>
+                    <div class="stats">
+                        <p><strong>0</strong><br>posts</p>
+                        <p><strong>0</strong><br>followers</p>
+                        <p><strong>0</strong><br>following</p>
+                    </div>
+                </div>
+            </div>
+            <p class="bio">{{profile.bio_text}}</p>
+            <h2 class="posts"><strong>POSTS</strong></h2>
+            <p class="join-date">Joined on {{profile.join_date}}</p>
+        </div>
+    </article>
+</main>
+{% endblock %}

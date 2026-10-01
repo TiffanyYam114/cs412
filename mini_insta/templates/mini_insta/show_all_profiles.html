@@ -1,0 +1,29 @@
+<!-- 
+    File: mini_insta/templates/mini_insta/show_all_profiles.html
+    Author: Tiffany Yam (tiffyam@bu.edu), 9/29/26
+    Description: Displays all Profiles
+-->
+
+
+<!-- Load the base template -->
+{% extends 'mini_insta/base.html' %}
+
+<!-- Custom content -->
+{% block content %}
+<h1>All Profiles</h1>
+<main class="profile">
+    <!-- Scriptlet code for a loop -->
+    {% for profile in profiles %}
+    <!-- Link to show this Profile only -->
+    <a class="show-profile" href="{% url 'show_profile' profile.pk %}">
+        <article>
+            <div class="profile2">
+                <h2>@{{profile.username}}</h2>
+                <h2>{{profile.display_name}}</h2>
+                <img class="profile-img" src="{{profile.profile_image_url}}" alt="">
+            </div>
+        </article>
+    </a>
+    {% endfor %}
+</main>
+{% endblock %}
