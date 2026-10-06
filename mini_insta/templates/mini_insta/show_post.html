@@ -1,0 +1,31 @@
+<!-- 
+    File: mini_insta/templates/mini_insta/show_post.html
+    Author: Tiffany Yam (tiffyam@bu.edu), 10/5/26
+    Description: Displays one Post
+-->
+
+
+<!-- Load the base template -->
+{% extends 'mini_insta/base.html' %}
+
+<!-- Custom content -->
+{% block content %}
+<div>
+    <div>
+        <img src="{{post.profile.profile_image_url}}" alt="">
+        <div>
+            <p><strong>@{{post.profile.username}}</strong></p>
+            <p>{{post.timestamp}}</p>
+        </div>
+    </div>
+
+    <div>
+        {% for photo in post.get_all_photos %}
+        <img src="{{photo.image_url}}" alt="">
+        {% endfor %}
+    </div>
+
+    <p>Liked by <strong>TBA</strong> and <strong>TBA others</strong></p>
+    <p><strong>@{{post.profile.username}}</strong> {{post.caption}}</p>
+</div>
+{% endblock %}

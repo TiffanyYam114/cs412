@@ -28,7 +28,26 @@
                 </div>
             </div>
             <p class="bio">{{profile.bio_text}}</p>
-            <h2 class="posts"><strong>POSTS</strong></h2>
+
+            <div class="posts">
+                <h2 class="posts"><strong>POSTS</strong></h2>
+
+                <!-- For each post in this profile -->
+                {% for post in profile.get_all_posts %}
+                    <!-- Link to go to the Post -->
+                    <a href="{% url 'show_post' post.pk %}">
+                        <!-- Check if there is a photo -->
+                        {% if post.get_all_photos %}
+                            <!-- Get the first image in this post -->
+                            <img src="{{post.get_all_photos.first.image_url}}" alt="">
+                        {% else %}
+                            <!-- Display a "no image" icon -->
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Image-not-found.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original" alt="">
+                        {% endif %}
+                    </a>
+                {% endfor %}
+            </div>
+
             <p class="join-date">Joined on {{profile.join_date}}</p>
         </div>
     </article>
