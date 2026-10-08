@@ -22,11 +22,19 @@
         </div>
         <footer>
             <li>
-                <!-- Link to go to the home page -->
+                <!-- Link to the home page -->
                 <a href="{% url 'show_all_profiles' %}">
                     <img class="footer-img" src="https://cdn-icons-png.flaticon.com/512/5895/5895964.png" alt="">
                 </a>
             </li>
+            {% if profile %}
+            <li>
+                <!-- Link to create a new post -->
+                <a href="{% url 'create_post' profile.pk %}">
+                    <img class="footer-img" src="https://static.vecteezy.com/system/resources/previews/000/377/812/non_2x/plus-vector-icon.jpg" alt="">
+                </a>
+            </li>
+            {% endif %}
         </footer>
     </body>
 </html>

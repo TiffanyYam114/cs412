@@ -11,8 +11,8 @@
 <!-- Custom content -->
 {% block content %}
 <div>
-    <div>
-        <img src="{{post.profile.profile_image_url}}" alt="">
+    <div class="post-header">
+        <img class="profile-img" src="{{post.profile.profile_image_url}}" alt="">
         <div>
             <p><strong>@{{post.profile.username}}</strong></p>
             <p>{{post.timestamp}}</p>
@@ -21,7 +21,7 @@
 
     <div>
         {% for photo in post.get_all_photos %}
-        <img src="{{photo.image_url}}" alt="">
+        <img src="{{photo.get_image_url}}" alt="">
         {% endfor %}
     </div>
 

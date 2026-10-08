@@ -9,6 +9,7 @@ scipy = "*"
 pandas = "*"
 scikit-learn = "*"
 django = "*"
+pillow = "*"
 
 [dev-packages]
 

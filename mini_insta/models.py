@@ -4,6 +4,7 @@
 
 
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
 
@@ -40,6 +41,10 @@ class Post(models.Model):
         """Return a string representation of this Post"""
         return f"{self.caption}"
 
+    def get_absolute_url(self):
+        """Return a URL for this Post's detail page."""
+        return reverse("show_post", kwargs={"pk": self.pk})
+
     def get_all_photos(self):
         """Return a QuerySet of all Photos in this Post"""
         photos = Photo.objects.filter(post=self)
@@ -52,8 +57,18 @@ class Photo(models.Model):
     # Define the data attributes of the Photo object
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     image_url = models.URLField(blank=True)
+    image_file = models.ImageField(blank=True)
     timestamp = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         """Return a string representation of this Photo"""
-        return f"{self.image_url}"
+        if self.image_url != "":
+            return f"{self.image_url}"
+        elif self.image_file:
+            return f"{self.image_file.url}"
+
+    def get_image_url(self):
+        if self.image_url != "":
+            return self.image_url
+        elif self.image_file:
+            return self.image_file.url
