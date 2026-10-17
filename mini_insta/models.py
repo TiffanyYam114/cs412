@@ -28,6 +28,10 @@ class Profile(models.Model):
         posts.order_by("-timestamp")
         return posts
 
+    def get_absolute_url(self):
+        """Return a URL for this Profile"""
+        return reverse("show_profile", kwargs={"pk": self.pk})
+
 
 class Post(models.Model):
     """Models the data attributes of an Instagram post"""

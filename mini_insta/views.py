@@ -6,9 +6,9 @@
 from typing import Any
 
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Profile, Post, Photo
-from .forms import CreatePostForm
+from .forms import CreatePostForm, UpdateProfileForm
 
 # Create your views here.
 
@@ -19,8 +19,6 @@ class ProfileListView(ListView):
     template_name = "mini_insta/show_all_profiles.html"
     context_object_name = "profiles"
 
-    
-
 
 class ProfileDetailView(DetailView):
     """Display one Profile"""
@@ -30,8 +28,6 @@ class ProfileDetailView(DetailView):
     context_object_name = "profile"
 
     
-    
-
 class PostDetailView(DetailView):
     """Display one Post"""
 
@@ -85,3 +81,11 @@ class CreatePostView(CreateView):
             Photo.objects.create(post=self.object, image_file=file)
         
         return response
+
+
+class UpdateProfileView(UpdateView):
+    """Display the form to update a Profile"""
+
+    model = Profile
+    form_class = UpdateProfileForm
+    template_name = "mini_insta/update_profile_form.html"
