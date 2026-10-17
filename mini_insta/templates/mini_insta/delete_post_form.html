@@ -1,0 +1,44 @@
+<!-- 
+    File: mini_insta/templates/mini_insta/delete_post_form.html
+    Author: Tiffany Yam (tiffyam@bu.edu), 10/17/26
+    Description: The form to delete a Post
+-->
+
+
+<!-- Load the base template -->
+{% extends 'mini_insta/base.html' %}
+
+<!-- Custom content -->
+{% block content %}
+<h3>Are you sure you want to delete this post?</h3>
+
+<!-- Form to submit the delete request -->
+<form method="POST">
+    {% csrf_token %}
+    <input type="submit" value="Delete">
+</form>
+
+<!-- Form to cancel the delete request -->
+<form action="{% url 'show_profile' profile.pk %}" method="GET">
+    {% csrf_token %}
+    <input type="submit" value="Cancel">
+</form>
+
+<!-- Display the Post to be deleted -->
+<div class="post-header">
+    <img class="profile-img" src="{{post.profile.profile_image_url}}" alt="">
+    <div>
+        <p><strong>@{{post.profile.username}}</strong></p>
+        <p>{{post.timestamp}}</p>
+    </div>
+</div>
+
+<div>
+    {% for photo in post.get_all_photos %}
+    <img src="{{photo.get_image_url}}" alt="">
+    {% endfor %}
+</div>
+
+<p>Liked by <strong>TBA</strong> and <strong>TBA others</strong></p>
+<p><strong>@{{post.profile.username}}</strong> {{post.caption}}</p>
+{% endblock %}
