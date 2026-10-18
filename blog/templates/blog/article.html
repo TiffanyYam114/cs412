@@ -14,6 +14,7 @@
             <h2>{{article.title}}</h2>
             <h3>By {{article.author}} at {{article.published}}</h3>
             <p>{{article.text}}</p>
+            <h3><a href="{% url 'update_article' article.pk %}">Update Article</a></h3>
         </div>
     </article>
 
@@ -27,6 +28,7 @@
             <div>
                 <strong>by {{comment.author}} at {{comment.published}}</strong>
                 <p>{{comment.text}}</p>
+                <a href="{% url 'delete_comment' comment.pk %}">Delete</a>
             </div>
         {% endfor %}
     </div>

@@ -1,0 +1,29 @@
+<!-- 
+    File: mini_insta/templates/mini_insta/show_following.html
+    Author: Tiffany Yam (tiffyam@bu.edu), 10/17/26
+    Description: Displays the Profiles followed by a Profile
+-->
+
+
+<!-- Load the base template -->
+{% extends 'mini_insta/base.html' %}
+
+<!-- Custom content -->
+{% block content %}
+<h1>All Profiles Followed by @{{profile.username}}</h1>
+
+<main class="profile">
+    <!-- Scriptlet code for a loop -->
+    {% for following in profile.get_following %}
+    <a class="show-profile" href="{% url 'show_profile' following.pk %}">
+    <article>
+        <div class="profile2">
+            <h2>@{{following.username}}</h2>
+            <h2>{{following.display_name}}</h2>
+            <img class="profile-img" src="{{following.profile_image_url}}" alt="">
+        </div>
+    </article>
+    </a>
+    {% endfor %}
+</main>
+{% endblock %}

@@ -1,0 +1,77 @@
+<!-- 
+    File: mini_insta/templates/mini_insta/search_results.html
+    Author: Tiffany Yam (tiffyam@bu.edu), 10/18/26
+    Description: Displays a form to search for Profiles and Posts
+-->
+
+
+<!-- Load the base template -->
+{% extends 'mini_insta/base.html' %}
+
+<!-- Custom content -->
+{% block content %}
+<div>
+    <!-- Show all Profiles matching the query -->
+    <h2>All Profiles matching "{{query}}"</h2>
+    <main class="profile">
+        {% for profile in profiles %}
+            <!-- Link to show the Profile -->
+            <a class="show-profile" href="{% url 'show_profile' profile.pk %}">
+                <article>
+                    <div class="profile2">
+                        <h2>@{{profile.username}}</h2>
+                        <h2>{{profile.display_name}}</h2>
+                        <img class="profile-img" src="{{profile.profile_image_url}}" alt="">
+                    </div>
+                </article>
+            </a>
+        {% endfor %}
+    </main>
+
+    <!-- Show all Posts matching the query -->
+    <h2>All Posts matching "{{query}}"</h2>
+    {% for post in posts %}
+        <a class="feed-link" href="{% url 'show_post' post.pk %}">
+            <div class="feed-post">
+                <!-- Display the Profile of this Post -->
+                <div class="post-header">
+                    <img class="profile-img" src="{{post.profile.profile_image_url}}" alt="">
+                    <div>
+                        <p><strong>@{{post.profile.username}}</strong></p>
+                        <p>{{post.timestamp}}</p>
+                    </div>
+                </div>
+
+                <!-- Display the Post image -->
+                {% if post.get_all_photos %}
+                    <!-- Get the first image in this post -->
+                    <img class="post-img" src="{{post.get_all_photos.first.image_url}}" alt="">
+                {% else %}
+                    <!-- Display a "no image" icon -->
+                    <img class="post-img" src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Image-not-found.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original" alt="">
+                {% endif %}
+
+                <!-- Display the Likes -->
+                {% if post.get_likes|length == 0 %}
+                    <p><strong>0</strong> likes</p>
+                {% elif post.get_likes|length > 0 %}
+                    <p>Liked by <strong>@{{post.get_likes.0}}</strong> and <strong>{{post.get_likes|length|add:-1}} others</strong></p>
+                {% endif %}
+
+                <!-- Display the caption -->
+                <p><strong>@{{post.profile.username}}</strong> {{post.caption}}</p>
+
+                <!-- Display all comments under this Post -->
+                <h3>Comments</h3>
+                {% for comment in post.get_all_comments %}
+                    <div class="comment">
+                        <img class="footer-img" src="{{comment.profile.profile_image_url}}" alt="">
+                        <p><strong>@{{comment.profile.username}}</strong></p>
+                        <p>{{comment.text}}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </a>
+    {% endfor %}
+</div>
+{% endblock %}

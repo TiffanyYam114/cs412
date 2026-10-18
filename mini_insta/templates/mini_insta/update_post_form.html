@@ -1,0 +1,28 @@
+<!-- 
+    File: mini_insta/templates/mini_insta/update_post_form.html
+    Author: Tiffany Yam (tiffyam@bu.edu), 10/17/26
+    Description: Displays a form to update a Post
+-->
+
+
+<!-- Load the base template -->
+{% extends 'mini_insta/base.html' %}
+
+<!-- Custom content -->
+{% block content %}
+<h1>Update this Post</h1>
+
+<form action="" method="POST">
+    {% csrf_token %}
+    <table>
+        {{form.as_table}}
+    </table>
+
+    <input type="submit" value="Update">
+</form>
+
+<!-- Add a separate form for a cancel button -->
+<form action="{% url 'show_post' post.pk %}" method="GET">
+    <input type="submit" value="Cancel">
+</form>
+{% endblock %}

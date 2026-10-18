@@ -10,7 +10,7 @@
 
 <!-- Custom content -->
 {% block content %}
-<div>
+<div class="feed-post">
     <div class="post-header">
         <img class="profile-img" src="{{post.profile.profile_image_url}}" alt="">
         <div>
@@ -19,13 +19,35 @@
         </div>
     </div>
 
+    <div class="update-delete">
+        <a class="button" href="{% url 'update_post' post.pk %}">Update</a>
+        <a class="button" href="{% url 'delete_post' post.pk %}">Delete</a>
+    </div>
+
     <div>
         {% for photo in post.get_all_photos %}
-        <img src="{{photo.get_image_url}}" alt="">
+        <img class="post-img" src="{{photo.get_image_url}}" alt="">
         {% endfor %}
     </div>
 
-    <p>Liked by <strong>TBA</strong> and <strong>TBA others</strong></p>
+    <!-- Display the Likes -->
+    {% if post.get_likes|length == 0 %}
+    <p><strong>0</strong> likes</p>
+    {% elif post.get_likes|length > 0 %}
+    <p>Liked by <strong>@{{post.get_likes.0}}</strong> and <strong>{{post.get_likes|length|add:-1}} others</strong></p>
+    {% endif %}
+
+
     <p><strong>@{{post.profile.username}}</strong> {{post.caption}}</p>
+
+    <!-- Display all comments under this Post -->
+    <h3>Comments</h3>
+    {% for comment in post.get_all_comments %}
+        <div class="comment">
+            <div><img class="footer-img" src="{{comment.profile.profile_image_url}}" alt=""></div>
+            <div><p><strong>@{{comment.profile.username}}</strong></p></div>
+            <div><p>{{comment.text}}</p></div>
+        </div>
+    {% endfor %}
 </div>
 {% endblock %}

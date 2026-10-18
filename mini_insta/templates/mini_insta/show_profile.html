@@ -21,13 +21,22 @@
                 <div>
                     <h2>{{profile.display_name}}</h2>
                     <div class="stats">
-                        <p><strong>0</strong><br>posts</p>
-                        <p><strong>0</strong><br>followers</p>
-                        <p><strong>0</strong><br>following</p>
+                        <p><strong>{{profile.get_all_posts|length}}</strong><br>posts</p>
+                        <!-- Link to show the followers -->
+                        <a href="{% url 'show_followers' profile.pk %}">
+                            <p><strong>{{profile.get_num_followers}}</strong><br>followers</p>
+                        </a>
+                        <!-- Link to show the following -->
+                        <a href="{% url 'show_following' profile.pk %}">
+                            <p><strong>{{profile.get_num_following}}</strong><br>following</p>
+                        </a>
                     </div>
                 </div>
             </div>
             <p class="bio">{{profile.bio_text}}</p>
+
+            <!-- Link to update this Profile -->
+            <a class="button" href="{% url 'update_profile' profile.pk %}">Update Profile</a>
 
             <div class="posts">
                 <h2 class="posts"><strong>POSTS</strong></h2>

@@ -21,3 +21,12 @@ class CreateCommentForm(forms.ModelForm):
         model = Comment
         # fields = ["article", "author", "text"]
         fields = ["author", "text"]
+
+
+class UpdateArticleForm(forms.ModelForm):
+    """A form to handle an update to an Article."""
+
+    class Meta:
+        """Associate this form with a model in our database."""
+        model = Article
+        fields = ["title", "text"]
