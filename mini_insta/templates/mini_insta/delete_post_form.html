@@ -19,7 +19,7 @@
 </form>
 
 <!-- Form to cancel the delete request -->
-<form action="{% url 'show_profile' profile.pk %}" method="GET">
+<form action="{% url 'show_post' post.pk %}" method="GET">
     {% csrf_token %}
     <input type="submit" value="Cancel">
 </form>
@@ -35,7 +35,7 @@
 
 <div>
     {% for photo in post.get_all_photos %}
-    <img src="{{photo.get_image_url}}" alt="">
+    <img class="post-img" src="{{photo.get_image_url}}" alt="">
     {% endfor %}
 </div>
 

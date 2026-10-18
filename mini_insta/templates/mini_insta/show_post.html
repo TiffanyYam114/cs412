@@ -10,7 +10,7 @@
 
 <!-- Custom content -->
 {% block content %}
-<div>
+<div class="feed-post">
     <div class="post-header">
         <img class="profile-img" src="{{post.profile.profile_image_url}}" alt="">
         <div>
@@ -19,8 +19,10 @@
         </div>
     </div>
 
-    <a href="{% url 'update_post' post.pk %}">Update</a>
-    <a href="{% url 'delete_post' post.pk %}">Delete</a>
+    <div class="update-delete">
+        <a class="button" href="{% url 'update_post' post.pk %}">Update</a>
+        <a class="button" href="{% url 'delete_post' post.pk %}">Delete</a>
+    </div>
 
     <div>
         {% for photo in post.get_all_photos %}

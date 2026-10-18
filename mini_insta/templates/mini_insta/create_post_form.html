@@ -12,6 +12,7 @@
 {% block content %}
 <h1>Create a New Post</h1>
 
+<!-- Form to submit the create request -->
 <form action="" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <table>
@@ -20,6 +21,10 @@
     <input type="file" multiple name="files">
 
     <input type="submit">
-    <a href="{% url 'show_profile' profile.pk %}">Cancel</a>
+</form>
+
+<!-- Form to cancel the create request -->
+<form action="{% url 'show_profile' profile.pk %}">
+    <input type="submit" value="Cancel">
 </form>
 {% endblock %}

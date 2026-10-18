@@ -177,3 +177,71 @@ class ShowFeedView(DetailView):
         context["profile"] = profile
 
         return context
+
+
+class SearchView(ListView):
+    """A view to search for Profiles and Posts"""
+
+    model = Profile
+    template_name = "mini_insta/search_results.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.GET.get("query"):
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            pk = self.kwargs["pk"]
+            profile = Profile.objects.get(pk=pk)
+            context = {
+                "profile": profile
+            }
+            return render(request, "mini_insta/search.html", context)
+
+    def get_queryset(self):
+        """Return the QuerySet of Posts that contain the query"""
+
+        # Get the query
+        query = self.request.GET.get("query")
+
+        # Get all Posts whose caption contains the query
+        posts = Post.objects.filter(caption__contains=query)
+
+        return posts
+
+    def get_queryset_profiles(self):
+        """Return the QuerySet of Profiles that contain the query"""
+
+        # Get the query
+        query = self.request.GET.get("query")
+
+        # Get all Profiles whose username, display name, or bio text contain the query
+        profiles = []
+        for profile in Profile.objects.all():
+            if query in profile.username or query in profile.display_name or query in profile.bio_text:
+                profiles.append(profile)
+
+        return profiles
+
+    def get_context_data(self, **kwargs):
+        """Returns the dictionary of context data to be used in the template"""
+
+        # Get the context dictionary from the superclass
+        context = super().get_context_data()
+
+        # Find the Profile
+        pk = self.kwargs["pk"]
+        profile = Profile.objects.get(pk=pk)
+        context["profile"] = profile
+
+        # Find the query if it exists
+        if self.request.GET.get("query"):
+            context["query"] = self.request.GET.get("query")
+
+        # Get the Posts that match the query
+        posts = self.get_queryset()
+        context["posts"] = posts
+
+        # Get the Profiles that match the query
+        profiles = self.get_queryset_profiles()
+        context["profiles"] = profiles
+
+        return context

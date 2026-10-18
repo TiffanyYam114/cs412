@@ -39,13 +39,41 @@
 
 
             {% if profile %}
+            <!-- Link to the search page -->
+            <li>
+                <a href="{% url 'search' profile.pk %}">
+                    <img class="footer-img" src="https://www.iconpacks.net/icons/1/free-search-icon-957-thumb.png" alt="">
+                </a>
+            </li>
+
+            <!-- Link to go to the Profile page -->
             <li>
                 <a href="{% url 'show_profile' profile.pk %}">
                     <img class="footer-img" src="{{profile.profile_image_url}}" alt="">
                 </a>
             </li>
+
             <!-- Link to create a new post -->
                 <a href="{% url 'create_post' profile.pk %}">
+                    <img class="footer-img" src="https://static.vecteezy.com/system/resources/previews/000/377/812/non_2x/plus-vector-icon.jpg" alt="">
+                </a>
+            {% elif post %}
+            <!-- Link to the search page -->
+            <li>
+                <a href="{% url 'search' post.profile.pk %}">
+                    <img class="footer-img" src="https://www.iconpacks.net/icons/1/free-search-icon-957-thumb.png" alt="">
+                </a>
+            </li>
+
+            <!-- Link to go to the Profile page -->
+            <li>
+                <a href="{% url 'show_profile' post.profile.pk %}">
+                    <img class="footer-img" src="{{post.profile.profile_image_url}}" alt="">
+                </a>
+            </li>
+
+            <!-- Link to create a new post -->
+                <a href="{% url 'create_post' post.profile.pk %}">
                     <img class="footer-img" src="https://static.vecteezy.com/system/resources/previews/000/377/812/non_2x/plus-vector-icon.jpg" alt="">
                 </a>
             {% endif %}
