@@ -76,6 +76,19 @@ class Profile(models.Model):
         # Return the length of the QuerySet, which is how many Profiles are being followed by this Profile
         return len(follows)
 
+    def get_post_feed(self):
+        """Returns a QuerySet of Posts for a Profile's following"""
+
+        # Get a list of Profiles followed by this Profile
+        following = self.get_following()
+
+        # Get the QuerySet of all Posts by these Profiles
+        posts = Post.objects.filter(profile__in=following)
+        # Order by timestamp descending
+        posts = posts.order_by("-timestamp")
+
+        return posts
+
 
 class Post(models.Model):
     """Models the data attributes of an Instagram post"""

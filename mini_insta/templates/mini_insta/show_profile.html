@@ -21,7 +21,7 @@
                 <div>
                     <h2>{{profile.display_name}}</h2>
                     <div class="stats">
-                        <p><strong>0</strong><br>posts</p>
+                        <p><strong>{{profile.get_all_posts|length}}</strong><br>posts</p>
                         <!-- Link to show the followers -->
                         <a href="{% url 'show_followers' profile.pk %}">
                             <p><strong>{{profile.get_num_followers}}</strong><br>followers</p>

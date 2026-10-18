@@ -17,4 +17,5 @@ urlpatterns = [
     path('post/<int:pk>/update', UpdatePostView.as_view(), name="update_post"),
     path('profile/<int:pk>/followers', ShowFollowersView.as_view(), name="show_followers"),
     path('profile/<int:pk>/following', ShowFollowingView.as_view(), name="show_following"),
+    path('profile/<int:pk>/feed', ShowFeedView.as_view(), name="show_feed"),
 ]

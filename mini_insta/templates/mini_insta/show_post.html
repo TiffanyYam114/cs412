@@ -24,7 +24,7 @@
 
     <div>
         {% for photo in post.get_all_photos %}
-        <img src="{{photo.get_image_url}}" alt="">
+        <img class="post-img" src="{{photo.get_image_url}}" alt="">
         {% endfor %}
     </div>
 
@@ -32,7 +32,7 @@
     {% if post.get_likes|length == 0 %}
     <p><strong>0</strong> likes</p>
     {% elif post.get_likes|length > 0 %}
-    <p>Liked by <strong>@{{post.get_likes.0}}</strong> and <strong>{{post.get_likes|length}} others</strong></p>
+    <p>Liked by <strong>@{{post.get_likes.0}}</strong> and <strong>{{post.get_likes|length|add:-1}} others</strong></p>
     {% endif %}
 
 
@@ -41,9 +41,11 @@
     <!-- Display all comments under this Post -->
     <h3>Comments</h3>
     {% for comment in post.get_all_comments %}
-        <img class="footer-img" src="{{comment.profile.profile_image_url}}" alt="">
-        <p><strong>@{{comment.profile.username}}</strong></p>
-        <p>{{comment.text}}</p>
+        <div class="comment">
+            <div><img class="footer-img" src="{{comment.profile.profile_image_url}}" alt=""></div>
+            <div><p><strong>@{{comment.profile.username}}</strong></p></div>
+            <div><p>{{comment.text}}</p></div>
+        </div>
     {% endfor %}
 </div>
 {% endblock %}

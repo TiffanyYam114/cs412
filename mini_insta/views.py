@@ -154,3 +154,26 @@ class ShowFollowingView(DetailView):
     model = Profile
     template_name = "mini_insta/show_following.html"
     context_object_name = "profile"
+
+
+class ShowFeedView(DetailView):
+    """A view to show the feed for a Profile"""
+
+    model = Post
+    template_name = "mini_insta/show_feed.html"
+    context_object_name = "post"
+
+    def get_context_data(self, **kwargs):
+        """Return the context dictionary for use in the template"""
+
+        # Get the context dictionary from the superclass
+        context = super().get_context_data()
+
+        # Find the Profile associated with this Post
+        pk = self.kwargs["pk"]
+        profile = Profile.objects.get(pk=pk)
+
+        # Add the Profile to the context dictionary
+        context["profile"] = profile
+
+        return context
