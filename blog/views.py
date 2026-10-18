@@ -132,7 +132,7 @@ class DeleteCommentView(DeleteView):
         # Find the Comment object:
         comment = Comment.objects.get(pk=pk)
 
-        # Find the Article to which this comment is associated:
+        # Find the PK of the Article to which this comment is associated:
         article = comment.article
 
         return reverse('article', kwargs={"pk": article.pk})
