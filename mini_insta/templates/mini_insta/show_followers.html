@@ -1,0 +1,29 @@
+<!-- 
+    File: mini_insta/templates/mini_insta/show_followers.html
+    Author: Tiffany Yam (tiffyam@bu.edu), 10/17/26
+    Description: Displays the followers of a Profile
+-->
+
+
+<!-- Load the base template -->
+{% extends 'mini_insta/base.html' %}
+
+<!-- Custom content -->
+{% block content %}
+<h1>All Profiles Following @{{profile.username}}</h1>
+
+<main class="profile">
+    <!-- Scriptlet code for a loop -->
+    {% for follower in profile.get_followers %}
+    <a class="show-profile" href="{% url 'show_profile' follower.pk %}">
+    <article>
+        <div class="profile2">
+            <h2>@{{follower.username}}</h2>
+            <h2>{{follower.display_name}}</h2>
+            <img class="profile-img" src="{{follower.profile_image_url}}" alt="">
+        </div>
+    </article>
+    </a>
+    {% endfor %}
+</main>
+{% endblock %}

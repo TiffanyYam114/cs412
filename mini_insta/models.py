@@ -32,6 +32,50 @@ class Profile(models.Model):
         """Return a URL for this Profile"""
         return reverse("show_profile", kwargs={"pk": self.pk})
 
+    def get_followers(self):
+        """Return a list of Profiles following this Profile"""
+
+        # Get the QuerySet of all Follows for which the profile field is this Profile
+        follows = Follow.objects.filter(profile=self)
+
+        # Add all the Profile objects in the QuerySet to a list
+        followers = []
+        for follow in follows:
+            followers.append(follow.follower_profile)
+
+        return followers
+
+    def get_num_followers(self):
+        """Returns the number of followers this Profile has"""
+
+        # Get the QuerySet of all Follows for which the profile field is this Profile
+        follows = Follow.objects.filter(profile=self)
+
+        # Return the length of the QuerySet, which is how many followers there are
+        return len(follows)
+
+    def get_following(self):
+        """Returns a list of Profiles followed by this Profile"""
+
+        # Get the QuerySet of all Follows for which the follower_profile field is this Profile
+        follows = Follow.objects.filter(follower_profile=self)
+
+        # Add all the Profile objects in the QuerySet to a list
+        following = []
+        for follow in follows:
+            following.append(follow.profile)
+
+        return following
+
+    def get_num_following(self):
+        """Returns the number of Profiles being followed by this Profile"""
+
+        # Get the QuerySet of all Follows for which the follower_profile field is this Profile
+        follows = Follow.objects.filter(follower_profile=self)
+
+        # Return the length of the QuerySet, which is how many Profiles are being followed by this Profile
+        return len(follows)
+
 
 class Post(models.Model):
     """Models the data attributes of an Instagram post"""
@@ -53,6 +97,24 @@ class Post(models.Model):
         """Return a QuerySet of all Photos in this Post"""
         photos = Photo.objects.filter(post=self)
         return photos
+
+    def get_all_comments(self):
+        """Return a QuerySet of all Comments under this Post"""
+        comments = Comment.objects.filter(post=self)
+        return comments
+
+    def get_likes(self):
+        """Returns a list of Profiles that liked a Post"""
+
+        # Get the QuerySet of all Likes under this post
+        likes_queryset = Like.objects.filter(post=self)
+
+        # Add all the Profile objects in the QuerySet to a list
+        likes = []
+        for like in likes_queryset:
+            likes.append(like.profile)
+
+        return likes
 
 
 class Photo(models.Model):
@@ -76,3 +138,40 @@ class Photo(models.Model):
             return self.image_url
         elif self.image_file:
             return self.image_file.url
+
+
+class Follow(models.Model):
+    """Models the data attributes related to a Profile following another Profile"""
+
+    profile = models.ForeignKey(Profile, related_name="profile", on_delete=models.CASCADE)
+    follower_profile = models.ForeignKey(Profile, related_name="follower_profile", on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        """Return a string representation of this Follow"""
+        return f"{self.follower_profile.username} follows {self.profile.username}"
+
+
+class Comment(models.Model):
+    """Models a Profile commenting on another Profile's Post"""
+
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    text = models.TextField(blank=False)
+    timestamp = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        """Return a string representation of this Comment"""
+        return f"{self.profile} commented: {self.text}"
+
+
+class Like(models.Model):
+    """Models a Profile liking a Post"""
+
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        """Return a string representation of this Like"""
+        return f"{self.profile.username} liked {self.post.profile.username}'s post: {self.post}"

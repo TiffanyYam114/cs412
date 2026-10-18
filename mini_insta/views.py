@@ -138,3 +138,19 @@ class UpdatePostView(UpdateView):
     model = Post
     form_class = UpdatePostForm
     template_name = "mini_insta/update_post_form.html"
+
+
+class ShowFollowersView(DetailView):
+    """A view to show the followers of a Profile"""
+
+    model = Profile
+    template_name = "mini_insta/show_followers.html"
+    context_object_name = "profile"
+
+
+class ShowFollowingView(DetailView):
+    """A view to show the Profiles a Profile is following"""
+
+    model = Profile
+    template_name = "mini_insta/show_following.html"
+    context_object_name = "profile"

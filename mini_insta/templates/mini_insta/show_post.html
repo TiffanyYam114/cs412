@@ -28,7 +28,22 @@
         {% endfor %}
     </div>
 
-    <p>Liked by <strong>TBA</strong> and <strong>TBA others</strong></p>
+    <!-- Display the Likes -->
+    {% if post.get_likes|length == 0 %}
+    <p><strong>0</strong> likes</p>
+    {% elif post.get_likes|length > 0 %}
+    <p>Liked by <strong>@{{post.get_likes.0}}</strong> and <strong>{{post.get_likes|length}} others</strong></p>
+    {% endif %}
+
+
     <p><strong>@{{post.profile.username}}</strong> {{post.caption}}</p>
+
+    <!-- Display all comments under this Post -->
+    <h3>Comments</h3>
+    {% for comment in post.get_all_comments %}
+        <img class="footer-img" src="{{comment.profile.profile_image_url}}" alt="">
+        <p><strong>@{{comment.profile.username}}</strong></p>
+        <p>{{comment.text}}</p>
+    {% endfor %}
 </div>
 {% endblock %}
