@@ -21,13 +21,41 @@
             {% endblock %}
         </div>
         <footer>
-            {% if profile %}
-                <!-- Link to the feed -->
-                <li>
-                    <a href="{% url 'show_feed' profile.pk %}">
+            <!-- URLs for users who are logged in -->
+            {% if request.user.is_authenticated %}
+                {% if current_profile %}
+                    <!-- Link to the feed -->
+                    <a href="{% url 'show_feed' %}">
                         <img class="footer-img" src="https://cdn-icons-png.flaticon.com/512/5895/5895964.png" alt="">
                     </a>
-                </li>
+                    <!-- Link to the search page -->
+                    <li>
+                        <a href="{% url 'search' %}">
+                            <img class="footer-img" src="https://www.iconpacks.net/icons/1/free-search-icon-957-thumb.png" alt="">
+                        </a>
+                    </li>
+                    <!-- Link to go to the Profile page -->
+                    <li>
+                        <a href="{% url 'show_user_profile' %}">
+                            <img class="footer-img" src="{{current_profile.profile_image_url}}" alt="">
+                        </a>
+                    </li>
+                    <!-- Link to create a new post -->
+                    <li>
+                        <a href="{% url 'create_post' %}">
+                            <img class="footer-img" src="https://static.vecteezy.com/system/resources/previews/000/377/812/non_2x/plus-vector-icon.jpg" alt="">
+                        </a>
+                    </li>
+                {% endif %}
+
+                <!-- Form to logout -->
+                <form class="button" action="{% url 'logout' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="submit" value="Logout">
+                </form>
+
+                Logged in as: {{request.user}}
+
             {% else %}
                 <!-- Link to the home page -->
                 <li>
@@ -35,48 +63,12 @@
                         <img class="footer-img" src="https://cdn-icons-png.flaticon.com/512/5895/5895964.png" alt="">
                     </a>
                 </li>
+                <!-- Link to login -->
+                <li><a class="button" href="{% url 'login' %}">Login</a></li>
+                Not logged in
             {% endif %}
 
 
-            {% if profile %}
-            <!-- Link to the search page -->
-            <li>
-                <a href="{% url 'search' profile.pk %}">
-                    <img class="footer-img" src="https://www.iconpacks.net/icons/1/free-search-icon-957-thumb.png" alt="">
-                </a>
-            </li>
-
-            <!-- Link to go to the Profile page -->
-            <li>
-                <a href="{% url 'show_profile' profile.pk %}">
-                    <img class="footer-img" src="{{profile.profile_image_url}}" alt="">
-                </a>
-            </li>
-
-            <!-- Link to create a new post -->
-                <a href="{% url 'create_post' profile.pk %}">
-                    <img class="footer-img" src="https://static.vecteezy.com/system/resources/previews/000/377/812/non_2x/plus-vector-icon.jpg" alt="">
-                </a>
-            {% elif post %}
-            <!-- Link to the search page -->
-            <li>
-                <a href="{% url 'search' post.profile.pk %}">
-                    <img class="footer-img" src="https://www.iconpacks.net/icons/1/free-search-icon-957-thumb.png" alt="">
-                </a>
-            </li>
-
-            <!-- Link to go to the Profile page -->
-            <li>
-                <a href="{% url 'show_profile' post.profile.pk %}">
-                    <img class="footer-img" src="{{post.profile.profile_image_url}}" alt="">
-                </a>
-            </li>
-
-            <!-- Link to create a new post -->
-                <a href="{% url 'create_post' post.profile.pk %}">
-                    <img class="footer-img" src="https://static.vecteezy.com/system/resources/previews/000/377/812/non_2x/plus-vector-icon.jpg" alt="">
-                </a>
-            {% endif %}
         </footer>
     </body>
 </html>

@@ -11,7 +11,7 @@
 <!-- Custom content -->
 {% block content %}
 <div>
-    <form action="{% url 'search' profile.pk %}">
+    <form action="{% url 'search' %}">
         {% csrf_token %}
         <h2>Search for people, posts, or text:</h2>
         <input type="text" name="query">

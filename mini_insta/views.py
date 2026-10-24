@@ -5,15 +5,52 @@
 
 from typing import Any
 
-from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Profile, Post, Photo
-from .forms import CreatePostForm, UpdateProfileForm, UpdatePostForm
+from django.shortcuts import render, redirect
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
+from .models import *
+from .forms import *
 from django.urls import reverse
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from django.contrib.auth import login
 
 # Create your views here.
 
-class ProfileListView(ListView):
+
+class CurrentProfile():
+    """Get the current logged in user's profile"""
+
+    def get_profile(self, request):
+        """Return the current User's Profile"""
+
+        if request.user.is_authenticated:
+            user = request.user
+            current_profile = Profile.objects.filter(user=user).first()
+            print(f"The current profile is: {current_profile}")
+            return current_profile
+        else:
+            return None
+
+    def get_context_data(self, **kwargs):
+            """Return the context dictionary for use in the template"""
+    
+            # Get the context dictionary from the superclass
+            context = super().get_context_data(**kwargs)
+            current_profile = self.get_profile(self.request)
+            context["current_profile"] = current_profile
+            return context
+
+
+class CustomLoginRequiredMixin(LoginRequiredMixin, CurrentProfile):
+    """Override the default LoginRequiredMixin class with additional features"""
+
+    def get_login_url(self):
+        """Return the URL for the login page"""
+        return reverse("login")
+
+
+class ProfileListView(CurrentProfile, ListView):
     """Display all Profiles"""
 
     model = Profile
@@ -21,15 +58,27 @@ class ProfileListView(ListView):
     context_object_name = "profiles"
 
 
-class ProfileDetailView(DetailView):
+class ProfileDetailView(CurrentProfile, DetailView):
     """Display one Profile"""
 
     model = Profile
     template_name = "mini_insta/show_profile.html"
     context_object_name = "profile"
 
+
+class UserProfileDetailView(CurrentProfile, DetailView):
+    """Display the current user's Profile"""
+
+    model = Profile
+    template_name = "mini_insta/show_profile.html"
+    context_object_name = "profile"
+
+    def get_object(self):
+            """Get the object (profile)"""
+            return self.get_profile(self.request)
+
     
-class PostDetailView(DetailView):
+class PostDetailView(CurrentProfile, DetailView):
     """Display one Post"""
 
     model = Post
@@ -37,21 +86,20 @@ class PostDetailView(DetailView):
     context_object_name = "post"
 
 
-class CreatePostView(CreateView):
+class CreatePostView(CustomLoginRequiredMixin, CreateView):
     """Create a new Post"""
 
     form_class = CreatePostForm
     template_name = "mini_insta/create_post_form.html"
 
-    def get_context_data(self):
+    def get_context_data(self, **kwargs):
         """Return the context dictionary for use in the template"""
 
         # Get the context dictionary from the superclass
-        context = super().get_context_data()
+        context = super().get_context_data(**kwargs)
 
         # Find the Profile associated with this Post
-        pk = self.kwargs["pk"]
-        profile = Profile.objects.get(pk=pk)
+        profile = self.get_profile(self.request)
 
         # Add the Profile to the context dictionary
         context["profile"] = profile
@@ -62,8 +110,7 @@ class CreatePostView(CreateView):
         """Attach a Profile object to this Post"""
 
         # Find/add the Profile to the context data
-        pk = self.kwargs["pk"]
-        profile = Profile.objects.get(pk=pk)
+        profile = self.get_profile(self.request)
         
         # Attach the Profile to the Post
         form.instance.profile = profile
@@ -84,15 +131,19 @@ class CreatePostView(CreateView):
         return response
 
 
-class UpdateProfileView(UpdateView):
+class UpdateProfileView(CustomLoginRequiredMixin, UpdateView):
     """Display the form to update a Profile"""
 
     model = Profile
     form_class = UpdateProfileForm
     template_name = "mini_insta/update_profile_form.html"
 
+    def get_object(self):
+        """Get the object (profile)"""
+        return self.get_profile(self.request)
 
-class DeletePostView(DeleteView):
+
+class DeletePostView(CustomLoginRequiredMixin, DeleteView):
     """Delete a Post"""
 
     model = Post
@@ -132,7 +183,7 @@ class DeletePostView(DeleteView):
         return reverse("show_profile", kwargs={"pk": profile.pk})
 
 
-class UpdatePostView(UpdateView):
+class UpdatePostView(CustomLoginRequiredMixin, UpdateView):
     """Display the form to update a Post"""
 
     model = Post
@@ -140,7 +191,7 @@ class UpdatePostView(UpdateView):
     template_name = "mini_insta/update_post_form.html"
 
 
-class ShowFollowersView(DetailView):
+class ShowFollowersView(CurrentProfile, DetailView):
     """A view to show the followers of a Profile"""
 
     model = Profile
@@ -148,7 +199,7 @@ class ShowFollowersView(DetailView):
     context_object_name = "profile"
 
 
-class ShowFollowingView(DetailView):
+class ShowFollowingView(CurrentProfile, DetailView):
     """A view to show the Profiles a Profile is following"""
 
     model = Profile
@@ -156,7 +207,7 @@ class ShowFollowingView(DetailView):
     context_object_name = "profile"
 
 
-class ShowFeedView(DetailView):
+class ShowFeedView(CustomLoginRequiredMixin, DetailView):
     """A view to show the feed for a Profile"""
 
     model = Post
@@ -167,32 +218,35 @@ class ShowFeedView(DetailView):
         """Return the context dictionary for use in the template"""
 
         # Get the context dictionary from the superclass
-        context = super().get_context_data()
+        context = super().get_context_data(**kwargs)
 
         # Find the Profile associated with this Post
-        pk = self.kwargs["pk"]
-        profile = Profile.objects.get(pk=pk)
+        profile = self.get_profile(self.request)
 
         # Add the Profile to the context dictionary
         context["profile"] = profile
 
         return context
 
+    def get_object(self):
+            """Get the object (profile)"""
+            return self.get_profile(self.request)
 
-class SearchView(ListView):
+
+class SearchView(CustomLoginRequiredMixin, ListView):
     """A view to search for Profiles and Posts"""
 
     model = Profile
     template_name = "mini_insta/search_results.html"
 
-    def dispatch(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         if request.GET.get("query"):
-            return super().dispatch(request, *args, **kwargs)
+            return super().get(request, *args, **kwargs)
         else:
-            pk = self.kwargs["pk"]
-            profile = Profile.objects.get(pk=pk)
+            profile = self.get_profile(self.request)
             context = {
-                "profile": profile
+                "profile": profile,
+                "current_profile": profile
             }
             return render(request, "mini_insta/search.html", context)
 
@@ -225,11 +279,10 @@ class SearchView(ListView):
         """Returns the dictionary of context data to be used in the template"""
 
         # Get the context dictionary from the superclass
-        context = super().get_context_data()
+        context = super().get_context_data(**kwargs)
 
         # Find the Profile
-        pk = self.kwargs["pk"]
-        profile = Profile.objects.get(pk=pk)
+        profile = self.get_profile(self.request)
         context["profile"] = profile
 
         # Find the query if it exists
@@ -245,3 +298,96 @@ class SearchView(ListView):
         context["profiles"] = profiles
 
         return context
+
+
+class CreateProfileView(CreateView):
+    """Display the form to create a Profile"""
+
+    model = Profile
+    form_class = CreateProfileForm
+    template_name = "mini_insta/create_profile_form.html"
+
+    def get_context_data(self, **kwargs):
+        """Return the context dictionary for use in the template"""
+
+        context = super().get_context_data(**kwargs)
+
+        # Create a UserCreationForm and add it to the context dictionary
+        user_creation_form = UserCreationForm()
+        context["user_creation_form"] = user_creation_form
+
+        return context
+
+    def form_valid(self, form):
+        """Associate the Profile with the User"""
+
+        # Save the form submission as a new User
+        user_creation_form = UserCreationForm(self.request.POST)
+        user = user_creation_form.save()
+
+        # Log the User in
+        login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
+
+        # Attach the Profile to the User
+        form.instance.user = user
+
+        response = super().form_valid(form)
+        return response
+
+
+class FollowProfileView(CustomLoginRequiredMixin, TemplateView):
+    """Follow another Profile"""
+
+    def post(self, request, *args, **kwargs):
+        # Get the logged in Profile and the Profile to be followed
+        current_profile = self.get_profile(request)
+        profile = Profile.objects.get(pk=self.kwargs["pk"])
+
+        # Only allow a follow if the two Profiles are different
+        if current_profile != profile:
+            Follow.objects.create(profile=profile, follower_profile=current_profile)
+
+        return redirect("show_profile", pk=profile.pk)
+
+
+class DeleteFollowView(CustomLoginRequiredMixin, TemplateView):
+    """Delete a Follow on another Profile"""
+
+    def post(self, request, *args, **kwargs):
+        # Get the logged in Profile and the Profile to be unfollowed
+        current_profile = self.get_profile(request)
+        profile = Profile.objects.get(pk=self.kwargs["pk"])
+
+        # Delete the Follow object
+        Follow.objects.get(profile=profile, follower_profile=current_profile).delete()
+
+        return redirect("show_profile", pk=profile.pk)
+
+
+class LikePostView(CustomLoginRequiredMixin, TemplateView):
+    """Like another Profile's Post"""
+
+    def post(self, request, *args, **kwargs):
+        # Get the logged in Profile and the Post to be liked
+        current_profile = self.get_profile(request)
+        post = Post.objects.get(pk=self.kwargs["pk"])
+
+        # Only allow a like if the Post is not associated with the Profile
+        if current_profile != post.profile:
+            Like.objects.create(post=post, profile=current_profile)
+
+        return redirect("show_post", pk=post.pk)
+
+
+class DeleteLikeView(CustomLoginRequiredMixin, TemplateView):
+    """Delete a Like on a Post"""
+
+    def post(self, request, *args, **kwargs):
+        # Get the logged in Profile and the Post to be unliked
+        current_profile = self.get_profile(request)
+        post = Post.objects.get(pk=self.kwargs["pk"])
+
+        # Delete the Like object
+        Like.objects.get(post=post, profile=current_profile).delete()
+
+        return redirect("show_post", pk=post.pk)

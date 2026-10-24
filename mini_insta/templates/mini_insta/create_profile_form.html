@@ -1,0 +1,34 @@
+<!-- 
+    File: mini_insta/templates/mini_insta/create_profile_form.html
+    Author: Tiffany Yam (tiffyam@bu.edu), 10/23/26
+    Description: Displays a form to create a Profile
+-->
+
+
+<!-- Load the base template -->
+{% extends 'mini_insta/base.html' %}
+
+<!-- Custom content -->
+{% block content %}
+
+<!-- Display the form to create a new User and Profile-->
+<form action="" method="POST">
+    {% csrf_token %}
+
+    <h1>User Creation</h1>
+    {{user_creation_form}}
+
+    <h1>Profile Creation</h1>
+    <table>
+        {{form.as_table}}
+    </table>
+
+    <input type="submit" value="Create">
+</form>
+
+<!-- Add a separate form for a cancel button -->
+<form action="{% url 'show_all_profiles' %}" method="GET">
+    <input type="submit" value="Cancel">
+</form>
+
+{% endblock %}

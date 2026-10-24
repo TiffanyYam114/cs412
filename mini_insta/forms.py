@@ -31,3 +31,12 @@ class UpdatePostForm(forms.ModelForm):
         """Relate this form to the Post model"""
         model = Post
         fields = ["caption"]
+
+
+class CreateProfileForm(forms.ModelForm):
+    """A form to create a Profile"""
+
+    class Meta:
+        """Relate this form to the Profile model"""
+        model = Profile
+        fields = ["username", "display_name", "bio_text", "profile_image_url"]

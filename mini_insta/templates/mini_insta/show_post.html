@@ -19,10 +19,13 @@
         </div>
     </div>
 
-    <div class="update-delete">
-        <a class="button" href="{% url 'update_post' post.pk %}">Update</a>
-        <a class="button" href="{% url 'delete_post' post.pk %}">Delete</a>
-    </div>
+    <!-- Only allow CRUD if the logged in user is associated with this post -->
+    {% if request.user.is_authenticated and post.profile.user == request.user %}
+        <div class="update-delete">
+            <a class="button" href="{% url 'update_post' post.pk %}">Update</a>
+            <a class="button" href="{% url 'delete_post' post.pk %}">Delete</a>
+        </div>
+    {% endif %}
 
     <div>
         {% for photo in post.get_all_photos %}
@@ -35,6 +38,25 @@
     <p><strong>0</strong> likes</p>
     {% elif post.get_likes|length > 0 %}
     <p>Liked by <strong>@{{post.get_likes.0}}</strong> and <strong>{{post.get_likes|length|add:-1}} others</strong></p>
+    {% endif %}
+
+    <!-- Like or delete Like forms -->
+    {% if request.user.is_authenticated and current_profile %}
+        {% if current_profile != post.profile %}
+            {% if current_profile in post.get_likes %}
+                <!-- Form to delete Like -->
+                <form action="{% url 'delete_like' post.pk %}"method="POST">
+                    {% csrf_token %}
+                    <input type="submit" value="Delete Like">
+                </form>
+            {% else %}
+                <!-- Form to Like -->
+                <form action="{% url 'like' post.pk %}" method="POST">
+                    {% csrf_token %}
+                    <input type="submit" value="Like">
+                </form>
+            {% endif %}
+        {% endif %}
     {% endif %}
 
 

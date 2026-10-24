@@ -35,8 +35,30 @@
             </div>
             <p class="bio">{{profile.bio_text}}</p>
 
-            <!-- Link to update this Profile -->
-            <a class="button" href="{% url 'update_profile' profile.pk %}">Update Profile</a>
+            <!-- Only allow CRUD if the logged in user is associated with this profile -->
+            {% if request.user.is_authenticated and profile.user == request.user %}
+                <!-- Link to update this Profile -->
+                <a class="button" href="{% url 'update_profile' %}">Update Profile</a>
+            {% endif %}
+
+            <!-- Follow or delete Follow forms -->
+            {% if request.user.is_authenticated and current_profile %}
+                {% if current_profile != profile %}
+                    {% if current_profile in profile.get_followers %}
+                        <!-- Form to Delete Follow -->
+                        <form action="{% url 'delete_follow' profile.pk %}" method="POST">
+                            {% csrf_token %}
+                            <input type="submit" value="Unfollow">
+                        </form>
+                    {% else %}
+                        <!-- Form to Follow -->
+                        <form action="{% url 'follow' profile.pk %}" method="POST">
+                            {% csrf_token %}
+                            <input type="submit" value="Follow">
+                        </form>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
 
             <div class="posts">
                 <h2 class="posts"><strong>POSTS</strong></h2>
