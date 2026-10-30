@@ -1,0 +1,78 @@
+<!--
+    File: voter_analytics/templates/voter_analytics/voters.html
+    Author: Tiffany Yam (tiffyam@bu.edu), 10/29/26
+    Description: Displays information for all voters.
+-->
+
+<!-- Load the base template -->
+{% extends 'voter_analytics/base.html' %}
+
+<h1>Showing all Results</h1>
+
+<!-- Page specific content -->
+{% block content %}
+<div class="container">
+    <!-- Include the search form in this page -->
+    <div class="row">
+        {% include "voter_analytics/search.html" %}
+    </div>
+</div>
+<div class="container">
+    <h1>Voter List</h1>
+    <!-- Nav links for different pages of results -->
+    <div class="page">
+        {% if is_paginated %}
+        <ul class="pagination">
+            <li class="">
+                <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</span>
+            </li>
+            {% if page_obj.has_previous %}
+                <li>
+                    <span><a href="?page={{ page_obj.previous_page_number }}">Previous</a></span>
+                </li>
+            {% endif %}
+            {% if page_obj.has_next %}
+                <li>
+                    <span><a href="?page={{ page_obj.next_page_number }}">Next</a></span>
+                </li>
+            {% endif %}
+            </ul>
+        {% endif %}
+    </div>
+    
+	<!-- Table of voters -->
+    <div class="voters-table">
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>DOB</th>
+                <th>Party</th>
+                <th>Precinct</th>
+                <th>Voter Score</th>
+            </tr>
+    
+            {% for v in voters %}
+            <tr>
+                <td>
+                    <a href="{% url 'voter' v.pk %}">
+                        {{v.first_name}} {{v.last_name}}
+                    </a>
+                </td>
+                <td>
+                    {{v.street_number}} {{v.street_name}}, 
+                    {% if v.apartment_number %}
+                    Apartment {{v.apartment_number}}, 
+                    {% endif %}
+                    Newton, MA {{v.zip_code}}
+                </td>
+                <td>{{v.date_of_birth}}</td>
+                <td>{{v.party_affiliation}}</td>
+                <td>{{v.precinct_number}}</td>
+                <td>{{v.voter_score}}</td>             
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>    
+{% endblock %}

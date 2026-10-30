@@ -1,0 +1,31 @@
+<!-- 
+    File: voter_analytics/templates/voter_analytics/base.html
+    Author: Tiffany Yam (tiffyam@bu.edu), 10/29/26
+    Description: Base template for the voter_analytics app.
+-->
+
+<!-- Load the CSS stylesheet -->
+{% load static %}
+<html>
+    <head>
+        <title>Voter Analytics</title>
+        <link rel="stylesheet" href="{% static 'voter_analytics_styles.css' %}">
+    </head>
+    <body>
+        <header>
+            <h1>Voter Analytics</h1>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'voters' %}">Home</a></li>
+                    <li><a href="{% url 'voters_list' %}">Show Voter List</a></li>
+                    <li><a href="{% url 'graphs' %}">Show Graphs</a></li>
+                </ul>
+            </nav>
+        </header>
+    
+    <!-- Page specific content goes here -->
+    {% block content %}
+    {% endblock %}    
+  
+    </body>
+</html>

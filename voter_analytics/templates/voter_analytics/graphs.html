@@ -1,0 +1,45 @@
+<!--
+    File: voter_analytics/templates/voter_analytics/graphs.html
+    Author: Tiffany Yam (tiffyam@bu.edu), 10/30/26
+    Description: Displays various graphs of voter data.
+-->
+
+<!-- Load the base template -->
+{% extends 'voter_analytics/base.html' %}
+
+<!-- Page specific content -->
+{% block content %}
+<div class="container">
+    <!-- Include the search form in this page -->
+    <div class="row">
+        {% include "voter_analytics/search.html" %}
+    </div>
+</div>
+<div class="container">
+    <!-- Show the year of birth bar chart -->
+    <div class="graph">
+        <div class="row">
+            <!-- Safe: render the HTML rather than display the HTML as text -->
+            {{graph_yob_distribution|safe}}
+        </div>
+    </div>
+</div>
+<div class="container">
+    <!-- Show the party affiliation pie chart -->
+    <div class="graph">
+        <div class="row">
+            <!-- Safe: render the HTML rather than display the HTML as text -->
+            {{graph_party_distribution|safe}}
+        </div>
+    </div>
+</div>
+<div class="container">
+    <!-- Show the election participation bar chart -->
+    <div class="graph">
+        <div class="row">
+            <!-- Safe: render the HTML rather than display the HTML as text -->
+            {{graph_election_distribution|safe}}
+        </div>
+    </div>
+</div>
+{% endblock %}

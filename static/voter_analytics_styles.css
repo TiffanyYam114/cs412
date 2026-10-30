@@ -1,0 +1,69 @@
+/*
+File: voter_analytics_styles.css
+Author: Tiffany Yam (tiffyam@bu.edu), 10/30/26
+Description: Contains styles for the voter_analytics application.
+*/
+
+* {
+    box-sizing: border-box;
+    
+}
+
+body {
+    max-width: 1000px;
+    margin: auto;
+    background-color: rgb(241, 241, 241);
+}
+
+header {
+    background-color: white;
+    padding: 10px;
+}
+
+.container {
+    background-color: white;
+    margin-bottom: 20px;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 30px;
+}
+
+nav ul li a {
+    text-decoration: none;
+}
+
+h1 {
+    padding-top: 10px;
+    padding-left: 20px;
+}
+
+table {
+    margin-left: 30px;
+}
+
+.search-table th {
+    text-align: left;
+    padding: 10px 200px 10px 10px;
+    border: 1px solid gray;
+}
+
+.search-table td {
+    border: 1px solid gray;
+    padding: 0 10px;
+}
+
+.election div {
+    display: block;
+}
+
+.submit th, .submit td {
+    padding: 10px 0px;
+    border: none;
+}
+
+.page li {
+    display: inline;
+    margin-right: 10px;
+}

@@ -1,0 +1,117 @@
+<!-- 
+    File: voter_analytics/templates/voter_analytics/search.html
+    Author: Tiffany Yam (tiffyam@bu.edu), 10/30/26
+    Description: Displays a search form to filter voters.
+-->
+
+<div class="container">
+    <h1>Search Form</h1>
+
+    <form method="GET">
+        <table class="search-table">
+            <tr>
+                <th>Party Affiliation</th>
+                <td>
+                    <select name="party_affiliation">
+                        <option disabled hidden 
+                            {% if not queries.party_affiliation %}selected{% endif %}>
+                            Choose
+                        </option>
+                        
+                        {% for party in party_affiliations %}
+                            <option value="{{party}}" 
+                                {% if queries.party_affiliation == party %}selected{% endif %}>
+                                {{party}}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Min Year of Birth</th>
+                <td>
+                    <select name="min_dob_year">
+                        <option disabled hidden 
+                            {% if not queries.min_dob_year %}selected{% endif %}>
+                            Choose
+                        </option>
+                        
+                        {% for year in years %}
+                            <option value="{{year}}" 
+                                {% if queries.min_dob_year == year %}selected{% endif %}>
+                                {{year}}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Max Year of Birth</th>
+                <td>
+                    <select name="max_dob_year">
+                        <option disabled hidden 
+                            {% if not queries.max_dob_year %}selected{% endif %}>
+                            Choose
+                        </option>
+                        
+                        {% for year in years %}
+                            <option value="{{year}}" 
+                                {% if queries.max_dob_year == year %}selected{% endif %}>
+                                {{year}}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr class="election">
+                <th>Previous Election Participation</th>
+                <td>
+                    <div>
+                        <input type="checkbox" name="v20state" 
+                            {% if "v20state" in queries %}checked{% endif %}>v20state
+                    </div>
+                    <div>
+                        <input type="checkbox" name="v21town" 
+                            {% if "v21town" in queries %}checked{% endif %}>v21town
+                    </div>
+                    <div>
+                        <input type="checkbox" name="v21primary" 
+                            {% if "v21primary" in queries %}checked{% endif %}>v21primary
+                    </div>
+                    <div>
+                        <input type="checkbox" name="v22general"
+                            {% if "v22general" in queries %}checked{% endif %}>v22general
+                    </div>
+                    <div>
+                        <input type="checkbox" name="v23town" 
+                            {% if "v23town" in queries %}checked{% endif %}>v23town
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>Voter Score</th>
+                <td>
+                    <select name="voter_score">
+                        <option disabled hidden 
+                            {% if not queries.voter_score %}selected{% endif %}>
+                            Choose
+                        </option>
+
+                        {% for score in voter_scores %}
+                            <option value="{{score}}" 
+                                {% if queries.voter_score == score %}selected{% endif %}>
+                                {{score}}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr class="submit">
+                <td>
+                    <input type="submit" value="Submit">
+                    <a href="{{request.path}}">Reset Form</a>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
