@@ -1,0 +1,19 @@
+<!--
+    File: dadjokes/templates/dadjokes/all_pictures.html
+    Author: Tiffany Yam (tiffyam@bu.edu), 11/12/26
+    Description: Displays all Pictures.
+-->
+
+<!-- Load the base template -->
+{% extends 'dadjokes/base.html' %}
+
+<!-- Page specific content -->
+{% block content %}
+<div class="container">
+    <h1>All Pictures</h1>
+    <!-- Loop through all pictures and display it -->
+    {% for picture in pictures %}
+        <img src="{{picture.image_url}}" alt="">
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+<!--
+    File: dadjokes/templates/dadjokes/picture.html
+    Author: Tiffany Yam (tiffyam@bu.edu), 11/12/26
+    Description: Displays one Picture.
+-->
+
+<!-- Load the base template -->
+{% extends 'dadjokes/base.html' %}
+
+<!-- Page specific content -->
+{% block content %}
+<div class="container">
+    <h1>Picture</h1>
+    <img src="{{picture.image_url}}" alt="">
+    <p>Picture added by {{picture.name}}</p>
+</div>
+{% endblock %}

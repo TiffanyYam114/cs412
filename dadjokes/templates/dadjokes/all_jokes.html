@@ -1,0 +1,21 @@
+<!--
+    File: dadjokes/templates/dadjokes/all_jokes.html
+    Author: Tiffany Yam (tiffyam@bu.edu), 11/12/26
+    Description: Displays all Jokes.
+-->
+
+<!-- Load the base template -->
+{% extends 'dadjokes/base.html' %}
+
+<!-- Page specific content -->
+{% block content %}
+<div class="container">
+    <h1>All Jokes</h1>
+    <!-- Loop through all jokes and display information -->
+    {% for joke in jokes %}
+        <h3>{{joke.text|linebreaksbr}}</h3>
+        <p>Joke added by {{joke.name}}</p>
+        <hr>
+    {% endfor %}
+</div>
+{% endblock %}

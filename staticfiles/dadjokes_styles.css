@@ -1,0 +1,52 @@
+/*
+File: dadjokes_styles.css
+Author: Tiffany Yam (tiffyam@bu.edu), 11/13/26
+Description: Contains styles for the dadjokes application.
+*/
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    max-width: 1000px;
+    margin: auto;
+    background-color: rgb(241, 241, 241);
+}
+
+header {
+    background-color: white;
+    padding: 10px;
+}
+
+.container {
+    background-color: white;
+    margin-top: 20px;
+    padding: 0 30px 10px;
+}
+
+nav ul {
+    padding-left: 25px;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 30px;
+}
+
+nav ul li a {
+    text-decoration: none;
+}
+
+h1 {
+    padding-top: 10px;
+    padding-left: 20px;
+}
+
+h3 {
+    padding-top: 20px;
+}
+
+img {
+    max-width: 400;
+}

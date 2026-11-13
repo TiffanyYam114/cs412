@@ -1,0 +1,31 @@
+<!--
+    File: dadjokes/templates/dadjokes/base.html
+    Author: Tiffany Yam (tiffyam@bu.edu), 11/12/26
+    Description: Base template for the dadjokes app.
+-->
+
+<!-- Load the CSS stylesheet -->
+{% load static %}
+<html>
+    <head>
+        <title>Dad Jokes</title>
+        <link rel="stylesheet" href="{% static 'dadjokes_styles.css' %}">
+    </head>
+    <body>
+        <header>
+            <h1>Dad Jokes</h1>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'joke' %}">Random Joke</a></li>
+                    <li><a href="{% url 'all_jokes' %}">All Jokes</a></li>
+                    <li><a href="{% url 'pictures' %}">All Pictures</a></li>
+                </ul>
+            </nav>
+        </header>
+    
+    <!-- Page specific content goes here -->
+    {% block content %}
+    {% endblock %}    
+  
+    </body>
+</html>

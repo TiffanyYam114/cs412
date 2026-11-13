@@ -1,0 +1,18 @@
+<!--
+    File: dadjokes/templates/dadjokes/joke.html
+    Author: Tiffany Yam (tiffyam@bu.edu), 11/12/26
+    Description: Displays a single Joke.
+-->
+
+<!-- Load the base template -->
+{% extends 'dadjokes/base.html' %}
+
+<!-- Page specific content -->
+{% block content %}
+<div class="container">
+    <!-- linebreaksbr keeps line spacing from creating the joke in admin app -->
+    <h3>{{joke.text|linebreaksbr}}</h3>
+    <p>Joke added by {{joke.name}}</p>
+    <img src="{{picture.image_url}}" alt="">
+</div>
+{% endblock %}
