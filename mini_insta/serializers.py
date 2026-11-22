@@ -6,16 +6,6 @@
 from rest_framework import serializers
 from .models import *
 
-class ProfileSerializer(serializers.ModelSerializer):
-    """
-    A serializer for the Profile model.
-    Specify which model/fields to send in the API.
-    """
-    
-    class Meta:
-        model = Profile
-        fields = ["username", "display_name", "profile_image_url", "bio_text", "join_date", "user"]
-
 
 class PhotoSerializer(serializers.ModelSerializer):
     """
@@ -64,3 +54,16 @@ class PostSerializer(serializers.ModelSerializer):
 
         # Return an object instance
         return post
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    """
+    A serializer for the Profile model.
+    Specify which model/fields to send in the API.
+    """
+
+    posts = PostSerializer(source="post_set", many=True, read_only=True)
+
+    class Meta:
+        model = Profile
+        fields = ["username", "display_name", "profile_image_url", "bio_text", "join_date", "user", "posts"]
