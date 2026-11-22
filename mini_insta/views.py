@@ -430,5 +430,12 @@ class ShowFeedAPIView(generics.ListAPIView):
 
 class CreatePostAPIView(generics.CreateAPIView):
     """API view to create a Post."""
-
+    
     serializer_class = PostSerializer
+
+    def perform_create(self, serializer):
+        profile = Profile.objects.get(pk=self.kwargs["pk"])
+        post = serializer.save(profile=profile)
+
+        for file in self.request.FILES.getlist("files"):
+            Photo.objects.create(post=post, image_file=file)

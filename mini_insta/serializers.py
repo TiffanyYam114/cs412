@@ -35,18 +35,27 @@ class PostSerializer(serializers.ModelSerializer):
     """
 
     photos = PhotoSerializer(source="photo_set", many=True, read_only=True)
+    image_file = serializers.ImageField(write_only=True, required=False)
     
     class Meta:
         model = Post
-        fields = ["profile", "timestamp", "caption", "photos"]
+        fields = ["profile", "timestamp", "caption", "photos", "image_file"]
+        read_only_fields = ["profile"]
     
     def create(self, validated_data):
         """Override the superclass method that handles object creation."""
 
         print(f"PostSerializer.create, validated_data={validated_data}.")
+        image_file = validated_data.pop("image_file", None)
+
         # Create a Post object
         post = Post(**validated_data)
         # Save the Post to the database
         post.save()
+
+        # Create a Photo object
+        if image_file:
+            Photo.objects.create(post=post, image_file=image_file)
+
         # Return an object instance
         return post
