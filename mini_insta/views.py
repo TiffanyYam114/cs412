@@ -15,6 +15,10 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login
 
+# REST API:
+from rest_framework import generics
+from .serializers import *
+
 # Create your views here.
 
 
@@ -229,8 +233,8 @@ class ShowFeedView(CustomLoginRequiredMixin, DetailView):
         return context
 
     def get_object(self):
-            """Get the object (profile)"""
-            return self.get_profile(self.request)
+        """Get the object (profile)"""
+        return self.get_profile(self.request)
 
 
 class SearchView(CustomLoginRequiredMixin, ListView):
@@ -391,3 +395,40 @@ class DeleteLikeView(CustomLoginRequiredMixin, TemplateView):
         Like.objects.get(post=post, profile=current_profile).delete()
 
         return redirect("show_post", pk=post.pk)
+
+
+class ProfileDetailAPIView(generics.RetrieveAPIView):
+    """API View to display one Profile."""
+
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+
+
+class ProfileListAPIView(generics.ListAPIView):
+    """API view to display all Profiles."""
+
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+
+
+class PostDetailAPIView(generics.RetrieveAPIView):
+    """API view to display a Post."""
+
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+
+
+class ShowFeedAPIView(generics.ListAPIView):
+    """API view to show the feed for a Profile."""
+
+    serializer_class = PostSerializer
+
+    def get_queryset(self):
+        profile = Profile.objects.get(pk=self.kwargs["pk"])
+        return profile.get_post_feed()
+
+
+class CreatePostAPIView(generics.CreateAPIView):
+    """API view to create a Post."""
+
+    serializer_class = PostSerializer
