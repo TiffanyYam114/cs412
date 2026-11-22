@@ -37,12 +37,14 @@ class PostSerializer(serializers.ModelSerializer):
     photos = PhotoSerializer(source="photo_set", many=True, read_only=True)
     image_file = serializers.ImageField(write_only=True, required=False)
 
+    profile_image_url = serializers.URLField(source="profile.profile_image_url", read_only=True)
     username = serializers.CharField(source="profile.username", read_only=True)
     display_name = serializers.CharField(source="profile.display_name", read_only=True)
     
     class Meta:
         model = Post
-        fields = ["profile", "timestamp", "caption", "photos", "image_file", "username", "display_name"]
+        fields = ["profile", "timestamp", "caption", "photos", "image_file", 
+                  "profile_image_url", "username", "display_name"]
         read_only_fields = ["profile"]
     
     def create(self, validated_data):
