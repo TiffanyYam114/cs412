@@ -1,1 +1,1 @@
-https://cs-webapps.bu.edu/tiffyam/dadjokes/api
+https://cs-webapps.bu.edu/tiffyam/mini_insta/api
